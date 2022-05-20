@@ -1,5 +1,14 @@
 import 'dotenv/config'
-import { app } from './src/app'
+import app from './src/app'
+
+app.set('views', __dirname + '/public/views')
+app.set('view engine', 'ejs')
+
+declare module 'express-session' {
+    interface SessionData {
+        nombreUsuario:string
+    }
+}
 
 const PORT = process.env.PORT
 app
