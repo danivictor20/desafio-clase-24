@@ -1,20 +1,18 @@
 import { Router } from "express"
 const routes = Router()
 
-const validarSesion = (req:any, res:any, next:any) => {
-    if (req.session.nombreUsuario) {
-        res.redirect('/products')
-    } else {
-        res.redirect('/api/auth/login');
-    }
-}
+import generateRandomProds from '../services/faker'
+const listProd = generateRandomProds()
 
-routes.get('/login' , (req, res) => {
-    res.render('login')
-})
+routes.get('/products/:log?/:nombre?', (req, res) => {
+    const log = req.params.log
+    const nombre = req.params.nombre
 
-routes.get('/products', (req, res) => {
-    res.render('index', {nombre: req.session.nombreUsuario})
+    res.render('index', {
+        data: log == 'logout' ? 'logout' : 'null',
+        nombre: log == 'logout' ? nombre : req.session.nombreUsuario,
+        listproducts: listProd
+    })
 })
 
 export default routes
