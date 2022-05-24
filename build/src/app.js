@@ -12,13 +12,12 @@ const app = (0, express_1.default)();
 app.use((0, express_session_1.default)({
     store: connect_mongo_1.default.create({
         mongoUrl: process.env.MONGO,
-        // ttl: 60
     }),
     secret: String(process.env.SECRET),
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60000
+        maxAge: Number(process.env.TIME_COOKIE)
     }
 }));
 app.use(express_1.default.urlencoded({ extended: true }));

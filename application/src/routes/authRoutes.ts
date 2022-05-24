@@ -1,18 +1,14 @@
 import { Router } from "express"
 const routes = Router()
+import authController from '../controller/authController'
+import { isLogued } from '../middlewares/isLogued'
 
-routes.post('/login' , (req, res) => {
-    const { nombre } = req.body
-    req.session.nombreUsuario = nombre;
-    res.redirect('/products');
-})
+routes.post('/login' , authController.login)
+routes.get('/logout', authController.logout)
 
-routes.get('/logout', (req, res) => {
-    const nombre = req.session.nombreUsuario
-    req.session.destroy(function (err) {
-        res.redirect('/products/logout/'+nombre);
-    });
-})
-
+/**
+ * Ejemplo de como proteger una ruta con un Middleware
+ */
+routes.get('/admin', isLogued, authController.admin)
 
 export default routes

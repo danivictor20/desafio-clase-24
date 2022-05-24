@@ -1,16 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const routes = (0, express_1.Router)();
-routes.post('/login', (req, res) => {
-    const { nombre } = req.body;
-    req.session.nombreUsuario = nombre;
-    res.redirect('/products');
-});
-routes.get('/logout', (req, res) => {
-    const nombre = req.session.nombreUsuario;
-    req.session.destroy(function (err) {
-        res.redirect('/products/logout/' + nombre);
-    });
-});
+const authController_1 = __importDefault(require("../controller/authController"));
+const isLogued_1 = require("../middlewares/isLogued");
+routes.post('/login', authController_1.default.login);
+routes.get('/logout', authController_1.default.logout);
+/**
+ * Ejemplo de como proteger una ruta con un Middleware
+ */
+routes.get('/admin', isLogued_1.isLogued, authController_1.default.admin);
 exports.default = routes;

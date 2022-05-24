@@ -1,18 +1,7 @@
 import { Router } from "express"
 const routes = Router()
+import viewsController from '../controller/viewsController'
 
-import generateRandomProds from '../services/faker'
-const listProd = generateRandomProds()
-
-routes.get('/products/:log?/:nombre?', (req, res) => {
-    const log = req.params.log
-    const nombre = req.params.nombre
-
-    res.render('index', {
-        data: log == 'logout' ? 'logout' : 'null',
-        nombre: log == 'logout' ? nombre : req.session.nombreUsuario,
-        listproducts: listProd
-    })
-})
+routes.get('/products/:log?/:nombre?', viewsController.productsView)
 
 export default routes

@@ -10,13 +10,12 @@ const app = express()
 app.use(session({
     store: MongoStore.create({
         mongoUrl: process.env.MONGO,
-        // ttl: 60
     }),
     secret: String(process.env.SECRET),
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60000
+        maxAge: Number(process.env.TIME_COOKIE)
     }
 }))
 app.use(express.urlencoded({extended: true}))
